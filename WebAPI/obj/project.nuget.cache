@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "D/5QtS/rPjvW3wGcnFqQtPP9m4NwwtwjputDRVvbYTXJDhXZLFqcNcG67D2r2yHXQOVFxhlAQ8dufYhIX/dk9g==",
+  "dgSpecHash": "a3rTgqF2ets67dhElmKOY41p4m9fudxyC8MzC2uWAI4pQh/kxyTTbj/ZuE6JHHYqXMtv7/oT2ktmqgoGgH0sPQ==",
   "success": true,
-  "projectFilePath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\WebAPI\\WebAPI.csproj",
+  "projectFilePath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trung\\.nuget\\packages\\aspnetcorehero.toastnotification\\1.1.0\\aspnetcorehero.toastnotification.1.1.0.nupkg.sha512",
     "C:\\Users\\trung\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",

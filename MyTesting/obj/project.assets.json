@@ -16683,11 +16683,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\MyTesting\\MyTesting.csproj",
+      "projectUniqueName": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\MyTesting\\MyTesting.csproj",
       "projectName": "MyTesting",
-      "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\MyTesting\\MyTesting.csproj",
+      "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\MyTesting\\MyTesting.csproj",
       "packagesPath": "C:\\Users\\trung\\.nuget\\packages\\",
-      "outputPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\MyTesting\\obj\\",
+      "outputPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\MyTesting\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -16708,11 +16708,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\CodeFirst\\CodeFirst.csproj": {
-              "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\CodeFirst\\CodeFirst.csproj"
+            "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\CodeFirst.csproj": {
+              "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\CodeFirst.csproj"
             },
-            "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\WebAPI\\WebAPI.csproj": {
-              "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\WebAPI\\WebAPI.csproj"
+            "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\WebAPI.csproj": {
+              "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\WebAPI.csproj"
             }
           }
         }

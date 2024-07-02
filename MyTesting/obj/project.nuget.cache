@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "acXiO9yDd7leJJSoKfxu/Hp+wZNUcBXRfwCwr4eJkyLrsKDfBsbJr7wK6NkYCs/w9Bea1Gzee1/Rv2h7D7zFVQ==",
+  "dgSpecHash": "wPJBjEuZrU1pjlLyZOG9JUjrzT6Zxni3mXqYk8Q3KG3BQvwD9SdynykFb55IIzk9M2P7uQE0HiTrc5BHn7dpFQ==",
   "success": true,
-  "projectFilePath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor\\MyTesting\\MyTesting.csproj",
+  "projectFilePath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\MyTesting\\MyTesting.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trung\\.nuget\\packages\\aspnetcorehero.toastnotification\\1.1.0\\aspnetcorehero.toastnotification.1.1.0.nupkg.sha512",
     "C:\\Users\\trung\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",

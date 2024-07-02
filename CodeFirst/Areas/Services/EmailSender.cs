@@ -8,8 +8,8 @@ namespace CodeFirst.Areas.Services
     {
         public async Task SendEmailAsync(string email, string subject, string htmlMessage) // thêm async thì không cần return :))
         {
-            var from = "duatreodaiduongden@gmail.com";
-            //var pass = "aiyt kzuj xpbq ygda";
+            var from = "trunghungpq456@gmail.com";
+            var pass = "qkjv xtvz khze zusw";
             var message = new MailMessage();
             message.From = new MailAddress(from);
             message.Subject = subject;

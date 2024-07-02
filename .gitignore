@@ -1,4 +1,26 @@
-﻿# Default ignored files
+# Global ignores
+.vs/
+bin/
+obj/
+*.user
+*.userprefs
+*.suo
+*.exe
+*.dll
+*.pidb
+*.swp
+*.cache
+*.bak
+*.tmp
+*.log
+*.vscode/
+node_modules/
+WebAPI/appsettings.Development.json
+CodeFirst/appsettings.json
+.vs/
+*.vsidx
+
+# Default ignored files
 /shelf/
 /workspace.xml
 # Rider ignored files
@@ -11,3 +33,5 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+.vs/
+*.vsidx
