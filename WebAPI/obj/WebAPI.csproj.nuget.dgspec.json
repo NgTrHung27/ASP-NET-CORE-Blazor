@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\WebAPI.csproj": {}
+    "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {}
   },
   "projects": {
-    "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\CodeFirst.csproj": {
+    "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\CodeFirst.csproj",
+        "projectUniqueName": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
         "projectName": "CodeFirst",
-        "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\CodeFirst.csproj",
-        "packagesPath": "C:\\Users\\trung\\.nuget\\packages\\",
-        "outputPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\obj\\",
+        "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\trung\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -176,25 +177,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\WebAPI.csproj": {
+    "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\WebAPI.csproj",
+        "projectUniqueName": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\WebAPI.csproj",
-        "packagesPath": "C:\\Users\\trung\\.nuget\\packages\\",
-        "outputPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\WebAPI\\obj\\",
+        "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\trung\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -208,8 +205,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\CodeFirst.csproj": {
-                "projectPath": "D:\\3nd Uni\\Năm 3.3\\Advanced web programming\\ASP NET CORE Blazor 2.0\\CodeFirst\\CodeFirst.csproj"
+              "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
+                "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj"
               }
             }
           }
@@ -218,6 +215,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -260,7 +262,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
