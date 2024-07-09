@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj": {}
+    "F:\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj": {}
   },
   "projects": {
-    "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
+    "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
+        "projectUniqueName": "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
         "projectName": "CodeFirst",
-        "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\obj\\",
+        "projectPath": "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,11 +34,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -169,6 +164,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -177,21 +190,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj": {
+    "F:\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj",
+        "projectUniqueName": "F:\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj",
         "projectName": "MyTesting",
-        "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\MyTesting\\obj\\",
+        "projectPath": "F:\\ASP-NET-CORE-Blazor\\MyTesting\\MyTesting.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "F:\\ASP-NET-CORE-Blazor\\MyTesting\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -205,11 +218,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
-                "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj"
+              "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
+                "projectPath": "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj"
               },
-              "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {
-                "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj"
+              "F:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {
+                "projectPath": "F:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj"
               }
             }
           }
@@ -218,11 +231,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -265,26 +273,40 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {
+    "F:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
+        "projectUniqueName": "F:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\WebAPI\\obj\\",
+        "projectPath": "F:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "F:\\ASP-NET-CORE-Blazor\\WebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -298,8 +320,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
-                "projectPath": "E:\\ASP DOTNET CORE Restaurant\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj"
+              "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
+                "projectPath": "F:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj"
               }
             }
           }
@@ -308,11 +330,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -347,6 +364,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -355,7 +390,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
