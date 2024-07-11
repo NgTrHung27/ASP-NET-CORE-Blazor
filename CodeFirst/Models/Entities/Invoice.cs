@@ -49,7 +49,7 @@ namespace CodeFirst.Models.Entities
         public virtual List<OrderService> OrderServices { get; set; }
         public virtual ICollection<InvoiceCode> InvoiceCode { get; set; }
 
-        public bool? PaymentStatus { get; set; }
+        public bool PaymentStatus { get; set; }
         public string? OrderStatus { get; set; }
         public string? TimeHall { get; set; }
 

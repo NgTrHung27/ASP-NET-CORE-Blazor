@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿    using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodeFirst.Models.Entities
@@ -23,5 +23,7 @@ namespace CodeFirst.Models.Entities
         public virtual MenuCategory? MenuCategory { get; set; }
         [Display(Name = "Hình ảnh")]
         public string? Image { get; set; }
+        [NotMapped]
+        public bool IsSelected { get; set; }
     }
 }

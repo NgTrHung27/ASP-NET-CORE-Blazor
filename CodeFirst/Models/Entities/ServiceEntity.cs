@@ -16,5 +16,7 @@ namespace CodeFirst.Models.Entities
         public virtual ServiceCategory? ServiceCategory { get; set; }
 
         public string? Image { get; set; }
+        [NotMapped]
+        public bool IsSelected { get; set; }
     }
 }

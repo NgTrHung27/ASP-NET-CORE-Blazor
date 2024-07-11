@@ -2,7 +2,6 @@
 using CodeFirst.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace CodeFirst.Service
 {
@@ -11,11 +10,19 @@ namespace CodeFirst.Service
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+
+        public AuthorizeService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        {
+            _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
+        }
+
         public async Task<string> GetRoleId(ApplicationUser userCurr)
         {
             string roleId = "";
-            var role = await _userManager.GetRolesAsync(userCurr);
-            var roleName = role.FirstOrDefault();
+            var roles = await _userManager.GetRolesAsync(userCurr);
+            var roleName = roles.FirstOrDefault();
             var identityRole = await _roleManager.FindByNameAsync(roleName);
             if (identityRole != null)
             {
@@ -23,12 +30,7 @@ namespace CodeFirst.Service
             }
             return roleId;
         }
-        public AuthorizeService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
-        {
-            _context = context;
-            _roleManager = roleManager;
-            _userManager = userManager;
-        }
+
         public async Task<string> UserHasPermission(string type)
         {
             List<string> roleNames = new List<string>();
@@ -37,7 +39,6 @@ namespace CodeFirst.Service
 
             foreach (var p in permissionList)
             {
-
                 if (p != null)
                 {
                     var role = await _roleManager.FindByIdAsync(p.RoleId);

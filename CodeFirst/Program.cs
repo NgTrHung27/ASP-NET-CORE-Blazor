@@ -4,28 +4,17 @@ using Microsoft.AspNetCore.Identity;
 using CodeFirst.Models;
 using CodeFirst.Service;
 using CloudinaryDotNet;
-using System.Configuration;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using AspNetCoreHero.ToastNotification;
-using System;
 using DinkToPdf.Contracts;
 using DinkToPdf;
 using CodeFirst.Hubs;
-using MailKit;
 using CodeFirst.Areas.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using MudBlazor.Services;
 using CodeFirst.Services;
-using CodeFirst.MiddlewareExtensions;
 using MudBlazor;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Components.Authorization;
 using Radzen;
-using Microsoft.AspNetCore.Http.Json;
-using System.Text.Json;
-using Newtonsoft.Json.Serialization;
 //using CodeFirst.SqlDependencies;
 //using SignalRYoutube.MiddlewareExtensions;
 
@@ -58,7 +47,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<ChatHub>(); // phải add vào mới gọi chatHub được
 builder.Services.AddScoped<MyBlazorHub>(); // phải add vào mới gọi chatHub được
-
 // đăng ký service
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<GreetingService>();
@@ -268,3 +256,23 @@ app.MapBlazorHub();
 app.MapFallbackToController("Blazor", "Home");
 app.UseSession();
 app.Run();
+
+
+// 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequiredLength = 10;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(60);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
+builder.Services.AddScoped<RoleManager<IdentityRole>>();
+builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+
+
