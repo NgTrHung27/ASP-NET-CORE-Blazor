@@ -271,8 +271,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<UserManager<ApplicationUser>>();
+builder.Services.AddScoped<UserManager<ApplicationUser>>();     
 builder.Services.AddScoped<RoleManager<IdentityRole>>();
 builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 

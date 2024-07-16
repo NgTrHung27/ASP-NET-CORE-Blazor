@@ -25,6 +25,8 @@
 @using System.Linq
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Components.Authorization
+@using System.Drawing
+@using DinkToPdfOrientation = DinkToPdf.Orientation;
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
@@ -40,6 +42,11 @@
 @inject ApplicationDbContext _context
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject AuthorizeService AuthorizeService
+@inject IJSRuntime JSRuntime
+
+
+
+
 <button class="btn btn-primary mb-2" @onclick="OpenCreateInvoiceModal">Tạo hóa đơn</button>
 
 <div class="modal fade @(showCreateInvoiceModal ? "show d-block" : "")" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
@@ -378,70 +385,6 @@
         newInvoice.Total = total;
     }
 }
-
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Chi nhánh</th>
-                <th>Sảnh</th>
-                <th>Email</th>
-                <th>Ngày đặt</th>
-                <th>Ngày đến</th>
-                <th>Tổng tiền</th>
-                <th>Trạng thái</th>
-                <th>Thanh toán</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var invoice in listInvoice)
-            {
-                <tr>
-                    <td>@invoice.InvoiceID</td>
-                    <td>@invoice.Branch?.Name</td>
-                    <td>@invoice.Hall?.Name</td>
-                    <td>@invoice.User?.Email</td>
-                    <td>@invoice.InvoiceDate?.ToString("dd/MM/yyyy")</td>
-                    <td>@invoice.AttendanceDate?.ToString("dd/MM/yyyy")</td>
-                    <td>@invoice.Total?.ToString("0#,##0") VND</td>
-                    <td>@invoice.OrderStatus</td>
-                    <td>@(invoice.PaymentStatus ? "Đã thanh toán" : "Chưa thanh toán")</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => OpenInvoiceDetails(invoice.InvoiceID)">Chi tiết</button>
-                        <button class="btn btn-danger" @onclick="() => OpenDeleteConfirmation(invoice.InvoiceID)">Xóa</button>
-                    </td>
-                </tr>
-
-            }
-        </tbody>
-    </table>
-</div>
-@if (showDeleteConfirmation)
-{
-    <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa</h5>
-                    <button type="button" class="close" @onclick="CloseDeleteConfirmation">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Bạn có chắc chắn muốn xóa hóa đơn này không?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @onclick="CloseDeleteConfirmation">Hủy</button>
-                    <button type="button" class="btn btn-danger" @onclick="DeleteInvoiceConfirmed">Xóa</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
 @code{
     private bool showDeleteConfirmation = false;
     private int invoiceToDeleteId;
@@ -497,10 +440,6 @@
     private string searchString1 = string.Empty;
     private List<Invoice> listInvoice = new List<Invoice>();
     private int change;
-    private void OpenInvoiceDetails(int invoiceId)
-    {
-        NavigationManager.NavigateTo($"/invoice/details/{invoiceId}");
-    }
 
     // filter của table
     private bool FilterFunc1(Invoice element) => FilterFunc(element, searchString1);
@@ -535,5 +474,394 @@
         }
         await LoadInvoices();
     }
-    
+
 }
+@if (showDeleteConfirmation)
+{
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa</h5>
+                    <button type="button" class="close" @onclick="CloseDeleteConfirmation">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa hóa đơn này không?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseDeleteConfirmation">Hủy</button>
+                    <button type="button" class="btn btn-danger" @onclick="DeleteInvoiceConfirmed">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Chi nhánh</th>
+                <th>Sảnh</th>
+                <th>Email</th>
+                <th>Ngày đặt</th>
+                <th>Ngày đến</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Thanh toán</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in listInvoice)
+            {
+                <tr>
+                    <td>@invoice.InvoiceID</td>
+                    <td>@invoice.Branch?.Name</td>
+                    <td>@invoice.Hall?.Name</td>
+                    <td>@invoice.User?.Email</td>
+                    <td>@invoice.InvoiceDate?.ToString("dd/MM/yyyy")</td>
+                    <td>@invoice.AttendanceDate?.ToString("dd/MM/yyyy")</td>
+                    <td>@invoice.Total?.ToString("0#,##0") VND</td>
+                    <td>@invoice.OrderStatus</td>
+                    <td>@(invoice.PaymentStatus ? "Đã thanh toán" : "Chưa thanh toán")</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => OpenInvoiceDetails(invoice.InvoiceID)">Chi tiết</button>
+                        <button class="btn btn-danger" @onclick="() => OpenDeleteConfirmation(invoice.InvoiceID)">Xóa</button>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+@code{
+    private bool showDetailInvoiceModal = false;
+    private Invoice selectedInvoice;
+
+    private async Task OpenInvoiceDetails(int invoiceId)
+    {
+        selectedInvoice = await _context.Invoice
+            .Include(i => i.Branch)
+            .Include(i => i.Hall)
+            .Include(i => i.User)
+            .Include(i => i.OrderMenus)
+                .ThenInclude(om => om.MenuEntity)
+            .Include(i => i.OrderServices)
+                .ThenInclude(os => os.ServiceEntity)
+            .FirstOrDefaultAsync(i => i.InvoiceID == invoiceId);
+
+        showDetailInvoiceModal = true;
+    }
+
+    private async Task<List<OrderMenu>> GetOrderMenusByInvoiceIdAsync(int invoiceId)
+    {
+        // Gọi dịch vụ hoặc truy vấn cơ sở dữ liệu để lấy danh sách thực đơn
+        return await _context.OrderMenu
+            .Include(om => om.MenuEntity) // Bao gồm thông tin MenuEntity
+            .Where(om => om.InvoiceID == invoiceId)
+            .ToListAsync();
+    }
+
+    private async Task<List<OrderService>> GetOrderServicesByInvoiceIdAsync(int invoiceId)
+    {
+        // Gọi dịch vụ hoặc truy vấn cơ sở dữ liệu để lấy danh sách dịch vụ
+        return await _context.OrderService
+            .Include(os => os.ServiceEntity) // Bao gồm thông tin ServiceEntity
+            .Where(os => os.InvoiceID == invoiceId)
+            .ToListAsync();
+    }
+
+
+
+    private void CloseDetailInvoiceModal()
+    {
+        showDetailInvoiceModal = false;
+    }
+
+}
+
+<div class="modal fade @(showDetailInvoiceModal ? "show d-block" : "")" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết hóa đơn</h5>
+                <button type="button" class="btn-close" @onclick="CloseDetailInvoiceModal"></button>
+                <button class="btn btn-primary" @onclick="GenerateAndDownloadInvoicePDF">In hóa đơn</button>
+
+            </div>
+            <div class="modal-body">
+                @if (selectedInvoice != null)
+                {
+                    <div>
+                        <p><strong>Chi nhánh:</strong> @selectedInvoice.Branch?.Name</p>
+                        <p><strong>Sảnh:</strong> @selectedInvoice.Hall?.Name</p>
+                        <p><strong>Email:</strong> @selectedInvoice.User?.Email</p>
+                        <p><strong>Ngày đặt:</strong> @selectedInvoice.InvoiceDate?.ToString("dd/MM/yyyy")</p>
+                        <p><strong>Ngày đến:</strong> @selectedInvoice.AttendanceDate?.ToString("dd/MM/yyyy")</p>
+                        <p><strong>Tổng tiền:</strong> @selectedInvoice.Total?.ToString("0#,##0") VND</p>
+                        <p><strong>Trạng thái:</strong> @selectedInvoice.OrderStatus</p>
+                        <p><strong>Thanh toán:</strong> @(selectedInvoice.PaymentStatus ? "Đã thanh toán" : "Chưa thanh toán")</p>
+
+                        <!-- Hiển thị chi tiết thực đơn -->
+                        <h6>Chi tiết thực đơn:</h6>
+                        <ul>
+                            @foreach (var orderMenu in selectedInvoice.OrderMenus)
+                            {
+                                <li>@orderMenu.MenuEntity?.Name - @orderMenu.MenuEntity?.Price?.ToString("0#,##0") VND</li>
+                            }
+                        </ul>
+
+                        <!-- Hiển thị chi tiết dịch vụ -->
+                        <h6>Chi tiết dịch vụ:</h6>
+                        <ul>
+                            @foreach (var orderService in selectedInvoice.OrderServices)
+                            {
+                                <li>@orderService.ServiceEntity?.Name - @orderService.ServiceEntity?.Price?.ToString("0#,##0") VND</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*xuất hóa đơn*@
+@code {
+
+    
+
+    public async Task GenerateAndDownloadInvoicePDF()
+    {
+        if (selectedInvoice == null) return;
+
+        // Generate the PDF
+        var pdfBytes = await GenerateInvoiceBytesAsync(selectedInvoice.InvoiceID);
+
+        // Download the PDF
+        await JSRuntime.InvokeVoidAsync("downloadFile", $"HoaDon_{selectedInvoice.InvoiceID}.pdf", "application/pdf", Convert.ToBase64String(pdfBytes));
+    }
+
+    private Invoice GetInvoiceFromDatabase(int? invoiceId)
+    {
+        // Sử dụng Entity Framework để lấy hóa đơn từ cơ sở dữ liệu
+        var invoice = _context.Invoice
+            .Include(i => i.Branch)
+            .Include(i => i.Hall)
+            .Include(i => i.User)
+            .Include(i => i.OrderMenus)
+            .ThenInclude(om => om.MenuEntity)
+            .Include(i => i.OrderServices)
+            .ThenInclude(os => os.ServiceEntity)
+            .FirstOrDefault(i => i.InvoiceID == invoiceId);
+
+        return invoice;
+    }
+
+    public async Task<byte[]> GenerateInvoiceBytesAsync(int? invoiceId)
+    {
+        var invoice = GetInvoiceFromDatabase(invoiceId);
+        var user = await UserManager.FindByIdAsync(invoice.UserId);
+        var userCurrent = await _userBlazorService.GetCurrentUser();
+        if (invoice == null)
+        {
+            // Handle the case when the invoice is null
+            return null;
+        }
+
+        // Lấy danh sách OrderMenu và OrderService dựa trên InvoiceID
+        var orderMenus = _context.OrderMenu.Where(om => om.InvoiceID == invoiceId).ToList();
+        var orderServices = _context.OrderService.Where(om => om.InvoiceID == invoiceId).ToList();
+        int count = 1;
+        var htmlBuilder1 = new StringBuilder();
+        var htmlBuilder2 = new StringBuilder();
+        var htmlBuilder3 = new StringBuilder();
+
+        if (invoice.Hall != null)
+        {
+            htmlBuilder3.Append("<tr>");
+            htmlBuilder3.Append("<td>" + invoice.Hall.Name + "</td>");
+            htmlBuilder3.Append("<td style='text-align: right;'>" + string.Format("{0:0,0}", invoice.Hall.Price) + " VND</td>");
+            htmlBuilder3.Append("</tr>");
+        }
+
+        foreach (var orderMenu in orderMenus)
+        {
+            var menuEntity = _context.MenuEntity.Find(orderMenu.MenuId);
+            if (menuEntity != null)
+            {
+                htmlBuilder1.Append("<tr>");
+                htmlBuilder1.Append("<td>" + count + "</td>");
+                htmlBuilder1.Append("<td>" + menuEntity.Name + "</td>");
+                htmlBuilder1.Append("<td style='text-align: right;'>" + string.Format("{0:0,0}", menuEntity.Price) + " VND</td>");
+                htmlBuilder1.Append("</tr>");
+                count++;
+            }
+        }
+        count = 1;
+        foreach (var orderService in orderServices)
+        {
+            var serviceEntity = _context.ServiceEntity.Find(orderService.ServiceId);
+            if (serviceEntity != null)
+            {
+                htmlBuilder2.Append("<tr>");
+                htmlBuilder2.Append("<td>" + count + "</td>"); // Thêm số thứ tự
+                htmlBuilder2.Append("<td>" + serviceEntity.Name + "</td>");
+                htmlBuilder2.Append("<td style='text-align: right;'>" + string.Format("{0:0,0}", serviceEntity.Price) + " VNĐ</td>");
+                htmlBuilder2.Append("</tr>");
+                count++;
+            }
+        }
+
+        var html = @"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none; /* Xóa border của table */
+        }
+        th, td {
+            border: none; /* Xóa border của các ô */
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        body {
+            position: relative;
+        }
+        .invoice, td, th {
+            letter-spacing: 1px;
+        }
+        .idinvoice {
+            letter-spacing: 0.5px;
+            position: absolute;
+            top: 10px;
+            left: 1px;
+            font-size: 13px;
+            color: gray;
+        }
+        .date-time {
+            letter-spacing: 0.5px;
+            position: absolute;
+            top: 10px;
+            right: 1px;
+            font-size: 13px;
+            color: gray;
+        }
+        h1, h2, h5 {
+            text-align: center;
+        }
+        span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<br/>
+    <h2 class=""invoice"">Hóa đơn thanh toán</h2>
+    <p class=""idinvoice"">Mã hóa đơn: " + invoice.InvoiceID + @"</p>
+    <p class=""invoice""><span>Email khách hàng: </span>" + user.Email + @"</p>
+    <p class=""invoice""><span>Chi nhánh: </span>" + invoice.Branch.Name + @"</p>
+    <p class=""invoice""><span>Nhân viên in hóa đơn: </span>" + userCurrent.ToString() + @"</p>
+    <p class=""date-time"">Ngày giờ: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + @"</p>
+
+    <h2 class=""invoice"">Sảnh đã đặt</h2>
+    <table>
+        <tr>
+            <th>Tên sảnh</th>
+            <th style='text-align: right;'>Giá</th>
+        </tr>";
+
+        html += htmlBuilder3.ToString();
+
+        html += @"
+    </table>
+
+    <h2 class=""invoice"">Danh sách món ăn đã đặt</h2>
+    <table>
+        <tr>
+            <th style='width:30px'>STT</th>
+            <th>Tên món ăn</th>
+            <th style='text-align: right;'>Giá</th>
+        </tr>";
+
+        html += htmlBuilder1.ToString();
+
+        html += @"
+    </table>
+
+    <h2 class=""invoice"">Danh sách dịch vụ đã đặt</h2>
+    <table>
+        <tr>
+            <th style='width:30px'>STT</th>
+            <th>Tên dịch vụ</th>
+            <th style='text-align: right;'>Giá</th>
+        </tr>";
+
+        html += htmlBuilder2.ToString();
+
+        html += @"
+    </table>
+    <table>
+        <tr>
+            <th style='background-color:white;text-align: left;' class=""invoice"">Tổng tiền:</th>
+            <td style='color:red;text-align: right;' class=""invoice"">" + string.Format("{0:0,0}", invoice.TotalBeforeDiscount) + " VNĐ" + @"</td>
+        </tr>
+        <tr>
+            <th style='background-color:white;text-align: left;' class=""invoice"">Tổng tiền sau khi giảm giá:</th>
+            <td style='color:red;text-align: right;' class=""invoice"">" + string.Format("{0:0,0}", invoice.Total) + " VNĐ" + @"</td>
+        </tr>
+    </table>
+</body>
+</html>";
+
+        // Convert HTML to PDF
+        var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+        Orientation = DinkToPdfOrientation.Portrait,  // Sử dụng alias
+        PaperSize = PaperKind.A4,
+    },
+                Objects = {
+        new ObjectSettings() {
+            PagesCount = true,
+            HtmlContent = html,
+            WebSettings = { DefaultEncoding = "utf-8" }
+        }
+    }
+            };
+
+        var file = _pdfConverter.Convert(pdf);
+        return file;
+    }
+}
+<script>
+    function downloadFile(fileName, contentType, content) {
+        const data = base64ToArrayBuffer(content);
+        const blob = new Blob([data], { type: contentType });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+    }
+
+    function base64ToArrayBuffer(base64) {
+        const binaryString = window.atob(base64);
+        const bytes = new Uint8Array(binaryString.length);
+        return bytes.map((byte, i) => binaryString.charCodeAt(i));
+    }
+</script>

@@ -1209,7 +1209,7 @@ $(() => {
     connection.on("ReceivedNotificationWelcome", function (message) {
         console.log("Received Notification Welcome: ", message);
         // Hiển thị thông báo chào mừng
-        DisplayGeneralNotification(message, 'quéo cơm');
+        DisplayGeneralNotification(message, 'Welcome');
 
     });
     connection.on("ReceivedNotificationUserOnline", function (message) {
