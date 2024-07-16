@@ -7,6 +7,32 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CodeFirst.styles.css" asp-append-version="true" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <script>
+        function DisplayGeneralNotification(icon, message, title) {
+            setTimeout(function() {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        toast.classList.add('toast-on-top');
+                    }
+                });
+
+                Toast.fire({
+                    icon: icon,
+                    title: title,
+                    text: message
+                });
+            }, 1300);
+        }
+    </script>
 </head>
 <body>
     <header>

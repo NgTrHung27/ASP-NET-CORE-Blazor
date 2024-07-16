@@ -45,12 +45,12 @@
 @inject AuthorizeService AuthorizeService
 @inject IJSRuntime JSRuntime
 @inject PaymentService _paymentService
+@inject ServicesNotification ServicesNotification
 
 
 
 
 <button class="btn btn-primary mb-2" @onclick="OpenCreateInvoiceModal">Tạo hóa đơn</button>
-
 <div class="modal fade @(showCreateInvoiceModal ? "show d-block" : "")" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;">
@@ -111,22 +111,8 @@
                         <textarea id="note" class="form-control" @bind="newInvoice.Note" rows="3"></textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="order-status" class="form-label">Trạng thái đơn hàng</label>
-                        <select id="order-status" class="form-select" @bind="newInvoice.OrderStatus" required>
-                            <option value="Pending">Đang chờ</option>
-                            <option value="Confirmed">Đã xác nhận</option>
-                            <option value="Cancelled">Đã hủy</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" @bind="newInvoice.PaymentStatus" /> Đã thanh toán
-                        </label>
-                    </div>
-
                     <div class="table-responsive">
+                      
                         <table class="table">
                             <thead>
                                 <tr>
@@ -257,7 +243,10 @@
                 PhoneNumber = PhoneNumber,
                 InvoiceDate = DateTime.Now,
                 BranchId = 1,
-                HallId = 1
+                HallId = 1,
+                OrderStatus = "Đã xác nhận",
+                PaymentStatus = false
+
             };
     }
 
@@ -316,6 +305,7 @@
             }
             _context.Update(newInvoice);
             await _context.SaveChangesAsync();     
+            await ServicesNotification.DisplayGeneralNotification("success","Tạo hóa đơn thành công!!", "Thông báo");
             showAlertCreateInvoice = true;
             showCreateInvoiceModal = false;
             await LoadInvoices();
@@ -325,10 +315,12 @@
             var innerException = dbEx.InnerException?.Message ?? dbEx.Message;
             Console.WriteLine($"An error occurred while saving the entity changes: {innerException}");
             // Ghi log chi tiết hoặc xử lý lỗi tùy theo yêu cầu của bạn
+            await ServicesNotification.DisplayGeneralNotification("error", "Tạo hóa đơn thất bại!!", "Thông báo");
         }
         catch(Exception ex)
         {
             Console.WriteLine($"Lỗi khi lưu hóa đơn {ex.Message}");
+            await ServicesNotification.DisplayGeneralNotification($"error", $"Lỗi {ex.Message}!!", "Thông báo");
         }
     }
 
@@ -421,18 +413,18 @@
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
+                await ServicesNotification.DisplayGeneralNotification("success", "Xóa hóa đơn thành công!!", "Thông báo");
                 await LoadInvoices();
-                Snackbar.Add("Hóa đơn đã được xóa thành công", Severity.Success);
             }
             else
             {
-                Snackbar.Add("Không tìm thấy hóa đơn", Severity.Error);
+                await ServicesNotification.DisplayGeneralNotification("error", "Xóa hóa đơn thất bại!!", "Thông báo");
             }
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            Snackbar.Add($"Lỗi khi xóa hóa đơn: {ex.Message}", Severity.Error);
+            await ServicesNotification.DisplayGeneralNotification("error", $"Lỗi {ex.Message}!!", "Thông báo");
         }
 
         CloseDeleteConfirmation();
@@ -529,9 +521,14 @@
                     <td>@invoice.AttendanceDate?.ToString("dd/MM/yyyy")</td>
                     <td>@invoice.Total?.ToString("0#,##0") VND</td>
                     <td>@invoice.OrderStatus</td>
-                    <td>@(invoice.PaymentStatus ? "Đã thanh toán" : "Chưa thanh toán")</td>
+                    <td style="color: @(invoice.PaymentStatus ? "green" : "red"); font-weight: bold;">
+                        @(invoice.PaymentStatus ? "Đã thanh toán" : "Chưa thanh toán")
+                    </td>
                     <td>
-                        <button class="btn btn-primary" @onclick="() => OpenPaymentModal(invoice.InvoiceID)">Thanh toán</button>
+                        @if(invoice.PaymentStatus == false)
+                        {
+                            <button class="btn btn-primary" @onclick="() => OpenPaymentModal(invoice.InvoiceID)">Thanh toán</button>
+                        }
                         <button class="btn btn-primary" @onclick="() => OpenInvoiceDetails(invoice.InvoiceID)">Chi tiết</button>
                         <button class="btn btn-danger" @onclick="() => OpenDeleteConfirmation(invoice.InvoiceID)">Xóa</button>
                     </td>
@@ -609,29 +606,30 @@
             {
                 _context.Invoice.Update(invoice);
                 await _context.SaveChangesAsync();
-                Snackbar.Add("Payment status updated successfully.", Severity.Success);
 
                 // Reload the invoice page
+                await ServicesNotification.DisplayGeneralNotification("success", "Thánh toán thành công!!", "Thông báo");
+                await Task.Delay(3000);
                 NavigationManager.NavigateTo("/invoice", forceLoad: true);
             }
             catch (DbUpdateException dbEx)
             {
                 var innerException = dbEx.InnerException?.Message ?? dbEx.Message;
-                Console.WriteLine($"An error occurred while updating the entity: {innerException}");
+               
                 // Optionally, display a message to the user
-                Snackbar.Add("Failed to update payment status.", Severity.Error);
+                await ServicesNotification.DisplayGeneralNotification("error", $"Lỗi {dbEx.Message}!!", "Thông báo");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error updating payment status: {ex.Message}");
                 // Optionally, display a message to the user
-                Snackbar.Add("Failed to update payment status.", Severity.Error);
+                await ServicesNotification.DisplayGeneralNotification("error", $"Lỗi {ex.Message}!!", "Thông báo");
             }
         }
         else
         {
             // Optionally, display a message to the user
-            Snackbar.Add("Invoice not found.", Severity.Warning);
+            await ServicesNotification.DisplayGeneralNotification("info", "Không tìm thấy thanh toán!!", "Thông báo");
         }
     }
 
@@ -700,7 +698,15 @@
             <div class="modal-header">
                 <h5 class="modal-title">Chi tiết hóa đơn</h5>
                 <button type="button" class="btn-close" @onclick="CloseDetailInvoiceModal"></button>
-                <button class="btn btn-primary" @onclick="GenerateAndDownloadInvoicePDF">In hóa đơn</button>
+                @if (selectedInvoice != null && selectedInvoice.PaymentStatus == true)
+                {
+
+                    <button class="btn btn-primary" @onclick="GenerateAndDownloadInvoicePDF">In hóa đơn</button>
+                }
+                else
+                {
+                    <b>Thanh toán để In hóa đơn</b>
+                }
 
             </div>
             <div class="modal-body">
@@ -719,18 +725,25 @@
                         <!-- Hiển thị chi tiết thực đơn -->
                         <h6>Chi tiết thực đơn:</h6>
                         <ul>
-                            @foreach (var orderMenu in selectedInvoice.OrderMenus)
+                            @if (selectedInvoice.OrderMenus != null)
                             {
-                                <li>@orderMenu.MenuEntity?.Name - @orderMenu.MenuEntity?.Price?.ToString("0#,##0") VND</li>
+                                @foreach (var orderMenu in selectedInvoice.OrderMenus)
+                                {
+                                    <li>@orderMenu.MenuEntity?.Name - @orderMenu.MenuEntity?.Price?.ToString("0#,##0") VND</li>
+                                }
                             }
                         </ul>
 
                         <!-- Hiển thị chi tiết dịch vụ -->
                         <h6>Chi tiết dịch vụ:</h6>
                         <ul>
+                            @if (selectedInvoice.OrderServices != null)
+                            {
+                                
                             @foreach (var orderService in selectedInvoice.OrderServices)
                             {
                                 <li>@orderService.ServiceEntity?.Name - @orderService.ServiceEntity?.Price?.ToString("0#,##0") VND</li>
+                            }
                             }
                         </ul>
                     </div>
@@ -738,6 +751,8 @@
             </div>
         </div>
     </div>
+
+  
 </div>
 
 
@@ -745,18 +760,24 @@
 
 @*xuất hóa đơn*@
 @code {
-
-    
-
     public async Task GenerateAndDownloadInvoicePDF()
     {
         if (selectedInvoice == null) return;
 
         // Generate the PDF
+        try
+        {
         var pdfBytes = await GenerateInvoiceBytesAsync(selectedInvoice.InvoiceID);
 
         // Download the PDF
         await JSRuntime.InvokeVoidAsync("downloadFile", $"HoaDon_{selectedInvoice.InvoiceID}.pdf", "application/pdf", Convert.ToBase64String(pdfBytes));
+        showDetailInvoiceModal = false; 
+            await ServicesNotification.DisplayGeneralNotification("success", $"In hóa đơn thành công!!", "Thông báo");
+        }catch(Exception ex)
+        {
+            await ServicesNotification.DisplayGeneralNotification("error", $"Lỗi {ex.Message}!!", "Thông báo");
+
+        }
     }
 
     private Invoice GetInvoiceFromDatabase(int? invoiceId)
@@ -928,10 +949,6 @@
     <table>
         <tr>
             <th style='background-color:white;text-align: left;' class=""invoice"">Tổng tiền:</th>
-            <td style='color:red;text-align: right;' class=""invoice"">" + string.Format("{0:0,0}", invoice.TotalBeforeDiscount) + " VNĐ" + @"</td>
-        </tr>
-        <tr>
-            <th style='background-color:white;text-align: left;' class=""invoice"">Tổng tiền sau khi giảm giá:</th>
             <td style='color:red;text-align: right;' class=""invoice"">" + string.Format("{0:0,0}", invoice.Total) + " VNĐ" + @"</td>
         </tr>
     </table>
@@ -973,4 +990,5 @@
         const bytes = new Uint8Array(binaryString.length);
         return bytes.map((byte, i) => binaryString.charCodeAt(i));
     }
+   
 </script>

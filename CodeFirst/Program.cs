@@ -64,6 +64,7 @@ builder.Services.AddScoped<CodeFirst.Service.NotificationService>();
 builder.Services.AddScoped<ProjectService>();
 builder.Services.AddScoped<TaskToDoService>();
 builder.Services.AddScoped<BranchService>();
+builder.Services.AddScoped<ServicesNotification>();
 builder.Services.AddHttpClient();
 
 // Cấu hình DI scope cho ASP.NET Core SignalR
