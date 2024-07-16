@@ -27,6 +27,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Drawing
 @using DinkToPdfOrientation = DinkToPdf.Orientation;
+@using CodeFirst.Services
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
@@ -43,6 +44,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject AuthorizeService AuthorizeService
 @inject IJSRuntime JSRuntime
+@inject PaymentService _paymentService
 
 
 
@@ -529,6 +531,7 @@
                     <td>@invoice.OrderStatus</td>
                     <td>@(invoice.PaymentStatus ? "Đã thanh toán" : "Chưa thanh toán")</td>
                     <td>
+                        <button class="btn btn-primary" @onclick="() => OpenPaymentModal(invoice.InvoiceID)">Thanh toán</button>
                         <button class="btn btn-primary" @onclick="() => OpenInvoiceDetails(invoice.InvoiceID)">Chi tiết</button>
                         <button class="btn btn-danger" @onclick="() => OpenDeleteConfirmation(invoice.InvoiceID)">Xóa</button>
                     </td>
@@ -543,6 +546,34 @@
     private bool showDetailInvoiceModal = false;
     private Invoice selectedInvoice;
 
+    private bool showPaymentModal = false;
+    private string qrCodeUrl = "/images/qrcode.jpg";
+
+    private async Task OpenPaymentModal(int invoiceId)
+    {
+        selectedInvoice = await _context.Invoice.FindAsync(invoiceId);
+        if (selectedInvoice != null)
+        {
+            showPaymentModal = true;
+            await GenerateQRCode();
+        }
+    }
+
+    private void ClosePaymentModal()
+    {
+        showPaymentModal = false;
+    }
+
+    private async Task GenerateQRCode()
+    {
+        // Assuming selectedInvoice contains the invoice details for which the QR code is to be generated
+        if (selectedInvoice != null)
+        {
+            // Generate the QR code URL based on the invoice details
+            qrCodeUrl = await _paymentService.GenerateQRCodeUrl(selectedInvoice);
+        }
+    }
+
     private async Task OpenInvoiceDetails(int invoiceId)
     {
         selectedInvoice = await _context.Invoice
@@ -556,6 +587,52 @@
             .FirstOrDefaultAsync(i => i.InvoiceID == invoiceId);
 
         showDetailInvoiceModal = true;
+    }
+
+    //Hung 
+    private async Task PaymentStatusChange(int invoiceId)
+    {
+        selectedInvoice = await _context.Invoice
+           .Include(i => i.Branch)
+           .Include(i => i.Hall)
+           .Include(i => i.User)
+           .Include(i => i.OrderMenus)
+               .ThenInclude(om => om.MenuEntity)
+           .Include(i => i.OrderServices)
+               .ThenInclude(os => os.ServiceEntity)
+           .FirstOrDefaultAsync(i => i.InvoiceID == invoiceId);
+        var invoice = await _context.Invoice.FindAsync(invoiceId);
+        if (invoice != null)
+        {
+            invoice.PaymentStatus = !invoice.PaymentStatus; // Toggle the payment status
+            try
+            {
+                _context.Invoice.Update(invoice);
+                await _context.SaveChangesAsync();
+                Snackbar.Add("Payment status updated successfully.", Severity.Success);
+
+                // Reload the invoice page
+                NavigationManager.NavigateTo("/invoice", forceLoad: true);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                var innerException = dbEx.InnerException?.Message ?? dbEx.Message;
+                Console.WriteLine($"An error occurred while updating the entity: {innerException}");
+                // Optionally, display a message to the user
+                Snackbar.Add("Failed to update payment status.", Severity.Error);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating payment status: {ex.Message}");
+                // Optionally, display a message to the user
+                Snackbar.Add("Failed to update payment status.", Severity.Error);
+            }
+        }
+        else
+        {
+            // Optionally, display a message to the user
+            Snackbar.Add("Invoice not found.", Severity.Warning);
+        }
     }
 
     private async Task<List<OrderMenu>> GetOrderMenusByInvoiceIdAsync(int invoiceId)
@@ -585,6 +662,38 @@
 
 }
 
+@if (showPaymentModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thanh toán qua QR Code</h5>
+                    <button type="button" class="btn-close" @onclick="ClosePaymentModal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    @if (!string.IsNullOrWhiteSpace(qrCodeUrl))
+                    {
+                        <img src="@qrCodeUrl" alt="QR Code for Payment" style="width: 300px; height: 300px;" />
+                        <p>Quét mã QR để thanh toán</p>
+                        @if (selectedInvoice != null)
+                        {
+                            <button class="btn btn-success" @onclick="() => PaymentStatusChange(selectedInvoice.InvoiceID)">Xác nhận Thanh toán</button>
+                        }
+                        else
+                        {
+                            <p>Vui lòng chọn hóa đơn trước khi thanh toán.</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>Đang tạo mã QR...</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
 <div class="modal fade @(showDetailInvoiceModal ? "show d-block" : "")" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;">

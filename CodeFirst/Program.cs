@@ -23,6 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMudServices();
 builder.Services.AddRadzenComponents();
 builder.Services.AddBlazorBootstrap();
+builder.Services.AddScoped<PaymentService>();
 
 // Add services to the container.
 builder.Services.AddSignalR();

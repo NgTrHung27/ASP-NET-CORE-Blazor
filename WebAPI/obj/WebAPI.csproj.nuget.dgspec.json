@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {}
+    "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {}
   },
   "projects": {
-    "D:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
+    "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
+        "projectUniqueName": "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
         "projectName": "CodeFirst",
-        "projectPath": "D:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
-        "packagesPath": "C:\\Users\\EmHuong\\.nuget\\packages\\",
-        "outputPath": "D:\\ASP-NET-CORE-Blazor\\CodeFirst\\obj\\",
+        "projectPath": "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj",
+        "packagesPath": "C:\\Users\\trung\\.nuget\\packages\\",
+        "outputPath": "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\CodeFirst\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\EmHuong\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trung\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -35,11 +38,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -170,24 +168,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.31, 6.0.31]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.31, 6.0.31]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.31, 6.0.31]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.31, 6.0.31]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -196,21 +176,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {
+    "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
+        "projectUniqueName": "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "D:\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
-        "packagesPath": "C:\\Users\\EmHuong\\.nuget\\packages\\",
-        "outputPath": "D:\\ASP-NET-CORE-Blazor\\WebAPI\\obj\\",
+        "projectPath": "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\WebAPI\\WebAPI.csproj",
+        "packagesPath": "C:\\Users\\trung\\.nuget\\packages\\",
+        "outputPath": "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\WebAPI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\EmHuong\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trung\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -218,15 +202,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
-                "projectPath": "D:\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj"
+              "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj": {
+                "projectPath": "D:\\3nd_Uni\\Year_3_3\\Advanced web programming\\ASP-NET-CORE-Blazor\\CodeFirst\\CodeFirst.csproj"
               }
             }
           }
@@ -235,11 +218,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -274,24 +252,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.31, 6.0.31]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.31, 6.0.31]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.31, 6.0.31]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.31, 6.0.31]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -300,7 +260,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
