@@ -64,10 +64,10 @@
 
                     <div class="mb-3">
                         <label for="hall-select" class="form-label">Sảnh</label>
-                        <select id="hall-select" class="form-select" @bind="newInvoice.HallId">
+                        <select id="hall-select" class="form-select" @bind="newInvoice.HallId" >
                             @foreach (var hall in Halls)
                             {
-                                <option value="@hall.HallId">@hall.Name</option>
+                                <option value="@hall.HallId">@hall.Name - @(hall.Price.HasValue ? hall.Price.Value.ToString("0#,##0") + " VND" : "Giá không có")</option>
                             }
                         </select>
                     </div>
@@ -135,7 +135,7 @@
                                         <td>@menu.MenuId</td>
                                         <td><input type="checkbox" @bind="menu.IsSelected" /></td>
                                         <td>@menu.Name</td>
-                                        <td>@menu.Price</td>
+                                        <td>@menu.Price?.ToString("0#,##0") VND</td>
                                         <td>@menu.Description</td>
                                     </tr>
                                 }
@@ -161,7 +161,7 @@
                                         <td>@service.ServiceId</td>
                                         <td><input type="checkbox" @bind="service.IsSelected" /></td>
                                         <td>@service.Name</td>
-                                        <td>@service.Price</td>
+                                        <td>@service.Price?.ToString("0#,##0") VND</td>
                                         <td>@service.Description</td>
                                     </tr>
                                 }
@@ -198,6 +198,7 @@
     </div>
 </div>
 
+
 @code {
     private string FullName = "";
     private string Email = "";
@@ -216,6 +217,7 @@
     private List<Hall> Halls { get; set; } = new List<Hall>();
     private List<MenuEntity> Menus { get; set; } = new List<MenuEntity>();
     private List<ServiceEntity> Services { get; set; } = new List<ServiceEntity>();
+    private List<TimeOfDay> TimesOfDay { get; set; } = new List<TimeOfDay>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -223,6 +225,7 @@
         Halls = await _context.Hall.ToListAsync();
         Menus = await _context.MenuEntity.Include(m => m.MenuCategory).ToListAsync();
         Services = await _context.ServiceEntity.Include(s => s.ServiceCategory).ToListAsync();
+        TimesOfDay = await _context.TimeOfDay.ToListAsync();
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
@@ -277,12 +280,13 @@
 
         try
         {
-        newInvoice.UserId = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        _context.Invoice.Add(newInvoice);
+            CalculateTotal();
+            newInvoice.UserId = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            _context.Invoice.Add(newInvoice);
 
-        await _context.SaveChangesAsync();
-        newInvoice.OrderMenus = new List<OrderMenu>();
-        newInvoice.OrderServices = new List<OrderService>();
+            await _context.SaveChangesAsync();
+            newInvoice.OrderMenus = new List<OrderMenu>();
+            newInvoice.OrderServices = new List<OrderService>();
             foreach (var service in Services.Where(s => s.IsSelected))
             {
                 var orderService = new OrderService
@@ -299,19 +303,19 @@
                         InvoiceID = newInvoice.InvoiceID,
                         MenuId = menu.MenuId
                     };
-               newInvoice.OrderMenus.Add(orderMenu);
-             }
-         _context.Update(newInvoice);
-    await _context.SaveChangesAsync();     
-        showAlertCreateInvoice = true;
-        showCreateInvoiceModal = false;
-        await LoadInvoices();
+                newInvoice.OrderMenus.Add(orderMenu);
+            }
+            _context.Update(newInvoice);
+            await _context.SaveChangesAsync();     
+            showAlertCreateInvoice = true;
+            showCreateInvoiceModal = false;
+            await LoadInvoices();
         } 
         catch (DbUpdateException dbEx)
         {
-        var innerException = dbEx.InnerException?.Message ?? dbEx.Message;
-        Console.WriteLine($"An error occurred while saving the entity changes: {innerException}");
-        // Ghi log chi tiết hoặc xử lý lỗi tùy theo yêu cầu của bạn
+            var innerException = dbEx.InnerException?.Message ?? dbEx.Message;
+            Console.WriteLine($"An error occurred while saving the entity changes: {innerException}");
+            // Ghi log chi tiết hoặc xử lý lỗi tùy theo yêu cầu của bạn
         }
         catch(Exception ex)
         {
@@ -324,8 +328,23 @@
         listInvoice = await _context.Invoice
             .Include(i => i.Branch)
             .Include(i => i.Hall)
-            .Include(i => i.User)
-            .ToListAsync();
+            .Include(i => i.User).Select(i => new Invoice
+                {
+                    InvoiceID = i.InvoiceID,
+                    BranchId = i.BranchId,
+                    Branch = i.Branch,
+                    HallId = i.HallId,
+                    Hall = i.Hall,
+                    UserId = i.UserId,
+                    User = i.User,
+                    InvoiceDate = i.InvoiceDate,
+                    AttendanceDate = i.AttendanceDate,
+                    OrderStatus = i.OrderStatus,
+                    PaymentStatus = i.PaymentStatus,
+                    TimeHall = i.TimeHall,
+                    Total = i.Total
+                })
+        .ToListAsync();
     }
     private void CalculateTotal()
     {
@@ -348,6 +367,13 @@
                 total += serviceItem.Price ?? 0;
             }
         }
+        // Thêm giá của Hall
+        var selectedHall = Halls.FirstOrDefault(h => h.HallId == newInvoice.HallId);
+        if (selectedHall != null)
+        {
+            total += selectedHall.Price ?? 0;
+        }
+
 
         newInvoice.Total = total;
     }
@@ -364,9 +390,9 @@
                 <th>Email</th>
                 <th>Ngày đặt</th>
                 <th>Ngày đến</th>
+                <th>Tổng tiền</th>
                 <th>Trạng thái</th>
                 <th>Thanh toán</th>
-                <th>Ca</th>
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -380,9 +406,9 @@
                     <td>@invoice.User?.Email</td>
                     <td>@invoice.InvoiceDate?.ToString("dd/MM/yyyy")</td>
                     <td>@invoice.AttendanceDate?.ToString("dd/MM/yyyy")</td>
+                    <td>@invoice.Total?.ToString("0#,##0") VND</td>
                     <td>@invoice.OrderStatus</td>
                     <td>@(invoice.PaymentStatus ? "Đã thanh toán" : "Chưa thanh toán")</td>
-                    <td>@invoice.TimeHall</td>
                     <td>
                         <button class="btn btn-primary" @onclick="() => OpenInvoiceDetails(invoice.InvoiceID)">Chi tiết</button>
                         <button class="btn btn-danger" @onclick="() => OpenDeleteConfirmation(invoice.InvoiceID)">Xóa</button>
@@ -393,6 +419,28 @@
         </tbody>
     </table>
 </div>
+@if (showDeleteConfirmation)
+{
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa</h5>
+                    <button type="button" class="close" @onclick="CloseDeleteConfirmation">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa hóa đơn này không?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseDeleteConfirmation">Hủy</button>
+                    <button type="button" class="btn btn-danger" @onclick="DeleteInvoiceConfirmed">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @code{
     private bool showDeleteConfirmation = false;
@@ -402,44 +450,47 @@
     {
         invoiceToDeleteId = invoiceId;
         showDeleteConfirmation = true;
+        StateHasChanged();
     }
     private void CloseDeleteConfirmation()
     {
         showDeleteConfirmation = false;
+        StateHasChanged();
     }
     private async Task DeleteInvoiceConfirmed()
     {
-        var result = await mbox.Show(); // Hiển thị MessageBox (nếu cần)
-        if (result == true)
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
         {
-            // Thực hiện xóa hóa đơn và các liên kết
             var invoiceToDelete = await _context.Invoice
-                                               .Include(i => i.OrderMenus)
-                                               .Include(i => i.OrderServices)
-                                               .FirstOrDefaultAsync(i => i.InvoiceID == invoiceToDeleteId);
+                .Include(i => i.OrderMenus)
+                .Include(i => i.OrderServices)
+                .FirstOrDefaultAsync(i => i.InvoiceID == invoiceToDeleteId);
 
             if (invoiceToDelete != null)
             {
+                _context.OrderMenu.RemoveRange(invoiceToDelete.OrderMenus);
+                _context.OrderService.RemoveRange(invoiceToDelete.OrderServices);
                 _context.Invoice.Remove(invoiceToDelete);
 
-                // Xóa các order menu và order service của hóa đơn
-                foreach (var orderMenu in invoiceToDelete.OrderMenus)
-                {
-                    _context.OrderMenu.Remove(orderMenu);
-                }
-
-                foreach (var orderService in invoiceToDelete.OrderServices)
-                {
-                    _context.OrderService.Remove(orderService);
-                }
-
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
 
-                await LoadInvoices(); // Cập nhật lại danh sách hóa đơn
+                await LoadInvoices();
+                Snackbar.Add("Hóa đơn đã được xóa thành công", Severity.Success);
             }
-
-            CloseDeleteConfirmation(); // Đóng modal xác nhận xóa sau khi xóa thành công
+            else
+            {
+                Snackbar.Add("Không tìm thấy hóa đơn", Severity.Error);
+            }
         }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            Snackbar.Add($"Lỗi khi xóa hóa đơn: {ex.Message}", Severity.Error);
+        }
+
+        CloseDeleteConfirmation();
     }
 
     private MudMessageBox mbox;

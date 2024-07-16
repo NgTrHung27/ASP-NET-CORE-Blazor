@@ -15,5 +15,8 @@ namespace CodeFirst.Models.Entities
         public string? Morning { get; set; }
         public string? Afternoon { get; set; }
         public string? Dinner { get; set; }
+        //
+
+
     }
 }
