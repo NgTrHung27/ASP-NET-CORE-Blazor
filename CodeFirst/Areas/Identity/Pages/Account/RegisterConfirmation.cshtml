@@ -1,23 +1,61 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Xác nhận email đăng kí tài khoản";
+    ViewData["Title"] = "Chúc mừng bạn đã đăng ký thành công";
     Layout = "~/Views/Shared/_EmptyLayout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    Hãy kiểm tra email để xác nhận đăng kí tài khoản
-</p>
+<style>
+    .confirmation-container {
+        text-align: center;
+        padding: 50px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    else
-    {
-<p>
-        Please check your email to confirm your account.
-</p>
-    }
-}
 
+    .confirmation-title {
+        font-size: 2.5em;
+        color: #4CAF50;
+    }
+
+    .confirmation-message {
+        font-size: 1.2em;
+        color: #555;
+        margin-top: 20px;
+    }
+
+    .confirmation-icon {
+        font-size: 4em;
+        color: #4CAF50;
+        margin-bottom: 20px;
+    }
+
+    .back-to-login-btn {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 10px 20px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .back-to-login-btn:hover {
+            background-color: #45a049;
+        }
+</style>
+
+<div class="confirmation-container">
+    <div class="confirmation-icon">
+        &#x2714;
+    </div>
+    <h1 class="confirmation-title">@ViewData["Title"]</h1>
+    <p class="confirmation-message">
+        Chúc mừng bạn đã đăng ký thành công!
+    </p>
+    <a href="/Identity/Account/Login" class="back-to-login-btn">Quay về trang đăng nhập</a>
+</div>

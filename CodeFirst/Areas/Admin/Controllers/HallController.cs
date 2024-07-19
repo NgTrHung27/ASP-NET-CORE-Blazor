@@ -10,7 +10,7 @@ using CodeFirst.Models.Entities;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using CloudinaryDotNet;
 using CodeFirst.Service;
-using CodeFirst.Migrations;
+//using CodeFirst.Migrations;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CodeFirst.Areas.Admin.Controllers

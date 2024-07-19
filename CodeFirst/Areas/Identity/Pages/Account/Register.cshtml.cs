@@ -170,7 +170,7 @@ namespace CodeFirst.Areas.Identity.Pages.Account
                 user.LastName = "ẩn danh";
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                
+                user.EmailConfirmed = true;
                 string imageUrl = Input.ImageUrl;
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
